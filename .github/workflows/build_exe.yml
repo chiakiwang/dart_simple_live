@@ -1,0 +1,24 @@
+name: Build Windows EXE
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+      - name: Install dependencies
+        run: |
+          cd simple_live_app
+          flutter pub get
+      - name: Build EXE
+        run: |
+          cd simple_live_app
+          flutter build windows --release
+      - name: Upload EXE File
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-EXE
+          path: simple_live_app/build/windows/x64/runner/Release/
